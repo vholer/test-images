@@ -19,7 +19,7 @@ RUN \
 # PHP Extensions
 RUN \
     apk update && \
-    apk add libzip-dev curl-dev && \
-    docker-php-ext-install pdo_mysql mysqli zip curl && \
+    apk add libzip-dev curl-dev libpng-dev icu-dev gmp-dev && \
+    docker-php-ext-install pdo_mysql mysqli zip curl gd intl gmp && \
     rm -rf /var/cache/apk/* && \
     touch /.php-ready
