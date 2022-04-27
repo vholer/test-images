@@ -20,6 +20,6 @@ RUN \
 RUN \
     apk update && \
     apk add libzip-dev curl-dev libpng-dev icu-dev gmp-dev && \
-    docker-php-ext-install pdo_mysql mysqli zip curl gd intl gmp && \
+    docker-php-ext-install pdo_mysql mysqli zip curl gd intl gmp fileinfo && \
     rm -rf /var/cache/apk/* && \
     touch /.php-ready
