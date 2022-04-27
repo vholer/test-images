@@ -2,6 +2,12 @@ ARG PHP_VERSION=8.1
 
 FROM docker.io/php:${PHP_VERSION}-fpm-alpine
 
+# Essential tools
+RUN \
+    apk update && \
+    apk add busybox-extras openssh-server openssh-sftp-server rsync && \
+    rm -rf /var/cache/apk/*
+
 # Composer
 RUN \
     cd /tmp && \
@@ -12,6 +18,8 @@ RUN \
 
 # PHP Extensions
 RUN \
-    docker-php-ext-install pdo_mysql && \
-    docker-php-ext-install mysqli && \
+    apk update && \
+    apk add libzip-dev curl-dev && \
+    docker-php-ext-install pdo_mysql mysqli zip curl && \
+    rm -rf /var/cache/apk/* && \
     touch /.php-ready
