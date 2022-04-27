@@ -16,10 +16,21 @@ RUN \
     mv composer.phar /usr/local/bin/composer && \
     rm composer-setup.php
 
-# PHP Extensions
+# ImageMagick
+RUN \
+    apk update && \
+    rm -rf /var/cache/apk/* && \
+    apk add imagemagick-dev && \
+    mkdir -p /usr/src/php/ext/imagick && \
+    curl -fsSL https://pecl.php.net/get/imagick | tar xvz -C "/usr/src/php/ext/imagick" --strip 1 && \
+    docker-php-ext-install imagick && \
+    rm -rf /var/cache/apk/*
+
+# Other PHP Extensions
 RUN \
     apk update && \
     apk add libzip-dev curl-dev libpng-dev icu-dev gmp-dev && \
-    docker-php-ext-install pdo_mysql mysqli zip curl gd intl gmp fileinfo && \
-    rm -rf /var/cache/apk/* && \
-    touch /.php-ready
+    docker-php-ext-install pdo_mysql mysqli zip curl gd intl gmp fileinfo exif && \
+    rm -rf /var/cache/apk/*
+
+RUN touch /.php-ready
