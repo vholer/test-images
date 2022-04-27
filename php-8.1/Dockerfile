@@ -5,7 +5,7 @@ FROM docker.io/php:${PHP_VERSION}-fpm-alpine
 # Essential tools
 RUN \
     apk update && \
-    apk add busybox-extras openssh-server openssh-sftp-server rsync && \
+    apk add busybox-extras openssh-server openssh-sftp-server rsync mysql-client && \
     rm -rf /var/cache/apk/*
 
 # Composer
