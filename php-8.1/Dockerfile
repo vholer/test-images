@@ -20,7 +20,7 @@ RUN \
 RUN \
     apk update && \
     rm -rf /var/cache/apk/* && \
-    apk add imagemagick-dev && \
+    apk add libgomp imagemagick-dev && \
     mkdir -p /usr/src/php/ext/imagick && \
     curl -fsSL https://pecl.php.net/get/imagick | tar xvz -C "/usr/src/php/ext/imagick" --strip 1 && \
     docker-php-ext-install imagick && \
