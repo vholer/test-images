@@ -17,6 +17,7 @@ RUN \
     rm composer-setup.php
 
 # ImageMagick
+# https://github.com/docker-library/php/issues/1033
 RUN \
     apk update && \
     rm -rf /var/cache/apk/* && \
@@ -30,7 +31,7 @@ RUN \
 RUN \
     apk update && \
     apk add libzip-dev curl-dev libpng-dev icu-dev gmp-dev && \
-    docker-php-ext-install pdo_mysql mysqli zip curl gd intl gmp fileinfo exif && \
+    docker-php-ext-install pdo_mysql mysqli zip curl gd intl gmp fileinfo exif opcache && \
     rm -rf /var/cache/apk/*
 
 RUN touch /.php-ready
