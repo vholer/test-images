@@ -22,7 +22,6 @@ RUN \
 # https://github.com/docker-library/php/issues/1033
 RUN \
     apk update && \
-    rm -rf /var/cache/apk/* && \
     apk add libgomp imagemagick imagemagick-dev && \
     mkdir -p /usr/src/php/ext/imagick && \
     curl -fsSL https://pecl.php.net/get/imagick | tar xvz -C "/usr/src/php/ext/imagick" --strip 1 && \
