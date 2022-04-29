@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Essential tools
 RUN \
     apt-get update && \
-    apt-get install -fy openbsd-inetd openssh-server openssh-sftp-server rsync mariadb-client && \
+    apt-get install -fy wget openbsd-inetd openssh-server openssh-sftp-server rsync mariadb-client && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
