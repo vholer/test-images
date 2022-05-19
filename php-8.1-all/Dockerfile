@@ -52,11 +52,14 @@ RUN \
     cd /etc/service/enabled && \
     mkdir -p httpd && \
         echo '#!/bin/sh'                     >httpd/run && \
+        echo 'set -e'                       >>httpd/run && \
         echo 'ln -s -f /mnt/cfg/httpd-olin.conf /etc/apache2/httpd.conf' >>httpd/run && \
         echo 'exec httpd -DFOREGROUND "$@"' >>httpd/run && \
         chmod 755 httpd/run && \
     mkdir -p php-fpm && \
         echo '#!/bin/sh'                     >php-fpm/run && \
+        echo 'set -e'                       >>php-fpm/run && \
+        echo 'ln -s -f /mnt/cfg/php-fpm-www.conf /usr/local/etc/php-fpm.d/www.conf' >> php-fpm/run && \
         echo 'exec php-fpm'                 >>php-fpm/run && \
         chmod 755 php-fpm/run && \
     mkdir -p sshd && \
