@@ -52,7 +52,7 @@ RUN \
     cd /etc/service/enabled && \
     mkdir -p httpd && \
         echo '#!/bin/sh'                     >httpd/run && \
-        echo 'ln -s -f /mnt/cfg/httpd-olin.conf /etc/apache2/conf/httpd.conf' >>httpd/run && \
+        echo 'ln -s -f /mnt/cfg/httpd-olin.conf /etc/apache2/httpd.conf' >>httpd/run && \
         echo 'exec httpd -DFOREGROUND "$@"' >>httpd/run && \
         chmod 755 httpd/run && \
     mkdir -p php-fpm && \
