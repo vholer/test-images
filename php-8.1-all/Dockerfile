@@ -44,4 +44,33 @@ RUN \
     docker-php-ext-install pdo_mysql mysqli zip curl gd intl gmp fileinfo exif opcache && \
     rm -rf /var/cache/apk/*
 
+# Install all other services
+RUN \
+    apk update && \
+    apk add runit apache2 apache2-ctl apache2-proxy && \
+    mkdir -p /etc/service/enabled && \
+    cd /etc/service/enabled && \
+    mkdir -p httpd && \
+        echo '#!/bin/sh'                     >httpd/run && \
+        echo 'exec httpd -DFOREGROUND "$@"' >>httpd/run && \
+        chmod 755 httpd/run && \
+    mkdir -p php-fpm && \
+        echo '#!/bin/sh'                     >php-fpm/run && \
+        echo 'exec php-fpm'                 >>php-fpm/run && \
+        chmod 755 php-fpm/run && \
+    mkdir -p sshd && \
+        echo '#!/bin/sh'                     >sshd/run && \
+        echo 'set -e'                       >>sshd/run && \
+        echo 'source /etc/init.d/sshd'      >>sshd/run && \
+        echo 'generate_host_keys'           >>sshd/run && \
+        echo 'echo "PermitEmptyPasswords yes" >>/etc/ssh/sshd_config' >>sshd/run && \
+        echo 'echo "AllowUsers user www-data" >>/etc/ssh/sshd_config' >>sshd/run && \
+        echo 'passwd -u www-data || :'      >>sshd/run && \
+        echo "sed -i -e 's,\(www-data.*:\)/sbin/nologin,\1/bin/ash,' /etc/passwd || :" >>sshd/run && \
+        echo 'exec /usr/sbin/sshd -D -e -p 22' >>sshd/run && \
+        chmod 755 sshd/run && \
+    rm -rf /var/cache/apk/*
+
 RUN touch /.php-ready
+
+ENTRYPOINT ["/sbin/runsvdir", "-P", "/etc/service/enabled"]
